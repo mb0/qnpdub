@@ -85,13 +85,77 @@ to be replaced.
 Solution
 --------
 
- 1. Collect underpants
- 2. ?
- 3. Profit
+The solution could at first be a simple web page that explains the status quo and how to navigate
+it. All whilst carefully avoiding giving out legal advice. It could grow to an international
+non-profit to foster creativity in this digital age of unreformed and potentially draconian
+copyright laws.
 
-All I wanna do is feel some joy. I have my reasons. I'm not the only guy.
+### Information
+
+There is much to learn before publishing your own dub. We want to prepare, provide and link relevant
+information, to ease the on-boarding process of new dubbers. This entails technical aspects like
+hardware and software, the copyright situation, experience reports which publishers are open for
+projects like this or how to best ask for permissions.
+
+Besides that we can highlight the alternative to copyrighted works. We can collect and create a
+repository of public domain and creative commons licensed work. A remastered Irving Berlin record
+with the Peerless Quartet, a separate piano and conga dub track can be remixed to a new work, that
+others can use.
+
+### Partners
+
+We can discuss this project with artist and publishers and come to a mutual understanding.
+If we can get rights, even if restricted to remixing with absurd caveats, for not only one but other
+all conforming projects on our platform, it would be a huge win. It would even be OK if rights
+holder say: You won't get any rights and we reserve our rights to take down your work, but (and this
+is the important bit) we will not sue you form damages! That would be fair enough and affirms the
+status quo, but renders it harmless.
+
+On the other hand partners would amplify and multiply views and reach of their art. We ideally have
+a web based widget that can synchronize and live mix the original video and a dub. Then both the
+original work and the dubber get hit (This might need some cooperation from youtube, I am not sure
+yet). Then most youtube centered publishers would already be in favor. Every aunt and granny will
+watch and re-watch the new Scary Pocket Jam with their niece on guitars.
+
+We could also get some mutual support from like minded copyright lawyers that are close to the cause
+(think organizations like EFF, Creative Commons and lawyers taking Lawrence Lessig seriously).
+
+We could at some point get sponsors on board like obviously shops for recording equipment (thomann),
+or public media outlets (ARD, BBC, NPR, etc.).
+
+### Services
+
+For dubbers we can provide some services to organize projects, discover and contact rights holders,
+manage and document permissions, network and collaborate with other dubbers.
+
+We can provide some custom project specific preconfigured Ardour and Blender templates. If the
+resources allow, we can provide a low traffic upload, archive, render, publish and preview system to
+showcase works to rights holders or to provide better collaboration tools.
+
+For rights holders we can offer a interface to review and manage their requests and permissions. We
+can provide an API to check uploads ids against registered works in our database.
+
+### Organization
+
+This project should be run with creative and without commercial interests. However, investing time
+to developing a project has already costs associated. At first it can be my hobby, then if others
+start to contribute we can sort out specifics with all collaborators. Depending on the scope this
+project might someday need a legal entity, resources and dedicated staff.
+
+Some public non-profit (in Germany allgemeinnütziger Verein) or not only tax exempts, but can even
+get government grants, depending on memberships numbers. Sponsorships, Donations and Patronage or
+other ways to raise money. Then we could, as a community, monetise on collaborative works based on
+the public domain or with consent of the rights holders, or even do virtual fund-raiser concerts.
+
+If we end up with too much money we wont pay agencies to maximize the funding stream, but must
+instead start programs to educate and donate hardware and instruments to communities in need.
 
 License
 -------
 
 (c) 2023 Martin Schnabel
+
+Software written for this project should be published under a permissive BSD 2-Clause license.
+The logo, web-design and text content should be licensed as cc-by-nc-sa.
+
+All I wanna do is feel some joy. I have my reasons. I'm not the only guy.
