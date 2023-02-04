@@ -59,21 +59,19 @@ share it publicly, which opens a whole new Pandora's box (of worms!): Copyright.
 
 If you take copyright serious you accept defeat immediately. You would need to know all rights
 holders, track down their representatives, get their contacts, explain your project and hope for the
-best. To this day I have not found anyone willing to explain to me how this works. Do professional
-artists have some special database, platform or software to manage and request permissions for their
-remixes, is this what publishers and agencies are for? I have no clue and I tried to ask.
+best. My favorite DJ confirmed my suspicion, that artist also just do it and see what happens.
 
-Yet, there are tons of copyrighted songs on Youtube, that were uploaded by users without any rights
-at all. This appears to be tolerated due to different reasons. Some videos might be considered fair
+There are tons of copyrighted songs on Youtube, that were uploaded by users without any rights at
+all. This appears to be tolerated due to different reasons. Some videos might be considered fair
 use. Other times the Track-ID system lets copyright owners still profit. Or because nobody raised
 any objection yet.
 
-I tried sharing videos on Youtube naively, before reading up on the details of fair use, experience
-this status quo. After two accepted fair use claims, for an individual Jamiroquai song and a Prince
-song as part of a 2 hour mix, I felt bold and wrote to NPR for advice regarding my Tiny Desk concert
-collages. I hoped somehow for an answer that affirms this status quo. Something like: it's not
-strictly OK and we reserve our rights to block the content at any time, but as long as it is like
-that we wont take action regarding our video rights.
+I tried sharing videos on Youtube naively, before reading up on the details of fair use, to
+experience this status quo. After two accepted fair use claims, for an individual Jamiroquai song
+and a Prince song as part of a 2 hour mix, I felt bold and wrote to NPR for advice regarding my Tiny
+Desk concert collages. I hoped somehow for an answer that affirms this status quo. Something like:
+it's not strictly OK and we reserve our rights to block the content at any time, but as long as it
+is like that we wont take action regarding our video rights.
 
 My project would generally not be seen as fair use, although it could be seen as commentary,
 promotion and has some educational aspects for me. Even dancing or whistling publicly to a
@@ -142,12 +140,12 @@ to developing a project has already costs associated. At first it can be my hobb
 start to contribute we can sort out specifics with all collaborators. Depending on the scope this
 project might someday need a legal entity, resources and dedicated staff.
 
-Some public non-profit (in Germany allgemeinnütziger Verein) or not only tax exempts, but can even
-get government grants, depending on memberships numbers. Sponsorships, Donations and Patronage or
+Some public non-profit (in Germany allgemeinnütziger Verein) are not only tax exempts, but can even
+get government grants, depending on memberships numbers. Sponsorships, Donations and Patronage are
 other ways to raise money. Then we could, as a community, monetise on collaborative works based on
 the public domain or with consent of the rights holders, or even do virtual fund-raiser concerts.
 
-If we end up with too much money we wont pay agencies to maximize the funding stream, but must
+If we end up with too much money we won't pay agencies to maximize the funding stream, but must
 instead start programs to educate and donate hardware and instruments to communities in need.
 
 License
