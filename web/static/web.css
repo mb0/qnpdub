@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@700&display=swap');
+html, body {
+	margin:0;
+	padding:0;
+	background-color: #383734;
+	color: #efefef;
+	font-size: 12px;
+	font-family: 'Ubuntu Mono', monospace;
+}
+header {
+	padding: 2em 0 2em 3em;
+}
+header h1 {
+	font-size: 144px;
+	margin: 0px;
+	margin-bottom: -12px;
+	text-shadow: 1px 1px 3px black;
+	animation: pulse 10s infinite ease;
+}
+header span {
+	display: block;
+	height: 1em;
+	padding-left: 16em;
+	overflow: hidden;
+}
+section {
+	max-width: 36em;
+	margin-left: 3em;
+	padding-left: 1em;
+}
+@media only screen and (min-width:600px) {
+	header {
+		padding: 4vw 0 4vw 6vw;
+	}
+	section {
+		margin-left: 6vw;
+	}
+	body {
+		font-size: 2vw;
+	}
+	header h1 {
+		font-size: 24vw;
+		margin-bottom: -2vw;
+	}
+}
+@media only screen and (min-width:100vh) {
+	body {
+		font-size: 2vh;
+	}
+	header h1 {
+		font-size: 24vh;
+		margin-bottom: -2vh;
+	}
+}
+
+@keyframes pulse {
+	10% {
+		text-shadow: 2px 2px 5px red, -2px -2px 5px green, 1px 2px 0px blue;
+	}
+	30% {
+		text-shadow: -3px -3px 15px red, 3px 3px 7px green, 1px 2px 15px blue;
+	}
+	50% {
+		text-shadow: -3px -3px 12px red, 3px 3px 15px green, 5px 1px 7px blue;
+		rotate: .1deg;
+	}
+	70% {
+		text-shadow: -3px -3px 7px red, 3px 3px 15px green, 3px 0px 10px blue;
+		rotate: -.3deg;
+	}
+	90% {
+		text-shadow: 3px 3px 4px red, -3px -3px 7px green, 1px 2px 5px blue;
+		rotate: 0deg;
+	}
+}
