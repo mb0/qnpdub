@@ -1,0 +1,2 @@
+example.*.pcm*
+!example.*.pcm*.gold
