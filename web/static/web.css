@@ -7,6 +7,9 @@ html, body {
 	font-size: 12px;
 	font-family: 'Ubuntu Mono', monospace;
 }
+body {
+	padding-bottom: 2em;
+}
 header {
 	padding: 2em 0 2em 3em;
 }
@@ -19,7 +22,7 @@ header h1 {
 }
 header span {
 	display: block;
-	height: 1em;
+	height: 1.1em;
 	padding-left: 16em;
 	overflow: hidden;
 }
