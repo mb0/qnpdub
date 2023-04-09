@@ -2,26 +2,18 @@ package clap
 
 import (
 	"fmt"
-	"time"
 
-	"github.com/mb0/qnpdub/wavf"
+	"github.com/mb0/qnpdub/av"
+	"github.com/mb0/qnpdub/av/pcm"
 )
 
-// SyncPaths syncronizes the media files at paths by clap detection to a frame rate.
-func (d *Detector) SyncPaths(rate int, paths ...string) ([]time.Duration, error) {
-	ws := make([]*wavf.W, 0, len(paths))
-	for _, path := range paths {
-		w, err := d.Load(path)
-		if err != nil {
-			return nil, err
-		}
-		ws = append(ws, w)
-	}
-	return d.SyncWavfs(rate, ws...)
+type Clap struct {
+	Clap av.Dur `json:"clap"`
+	Off  av.Dur `json:"off,omitempty"`
 }
 
-// SyncWavfs syncronizes the waveforms by clap detection to a frame rate.
-func (d *Detector) SyncWavfs(rate int, ws ...*wavf.W) ([]time.Duration, error) {
+// Match detects and matches the end-clapst in the given waveforms and returns as time offset.
+func (d *Detector) Match(rate av.Rate, ws ...*pcm.File) ([]Clap, error) {
 	if len(ws) < 2 {
 		return nil, fmt.Errorf("needs at least two waveforms")
 	}
@@ -50,6 +42,7 @@ func (d *Detector) SyncWavfs(rate int, ws ...*wavf.W) ([]time.Duration, error) {
 	// match webs and collect claps and max clap offset
 	var max int
 	claps := make([]int, 0, len(ws))
+	res := make([]Clap, 0, len(ws))
 	lst := webs[hilo[0]]
 	for i, idx := range hilo[1:] {
 		cur := webs[idx]
@@ -63,17 +56,18 @@ func (d *Detector) SyncWavfs(rate int, ws ...*wavf.W) ([]time.Duration, error) {
 		}
 		if i == 0 {
 			claps = append(claps, ac)
+			res = append(res, Clap{Clap: d.Format.Dur(ac)})
 		}
 		claps = append(claps, bc)
+		res = append(res, Clap{Clap: d.Format.Dur(bc)})
 		lst = cur
 	}
 	// calculate offsets relative to max clap
-	res := make([]time.Duration, 0, len(ws))
-	for _, clap := range claps {
+	for i, clap := range res {
 		// sync offset to frame rate
-		ff := d.Rate / rate
-		off := d.Duration(max - clap + ff)
-		res = append(res, off)
+		//ff := d.Rate.Num * rate.Den / rate.Num * d.Rate.Den
+		//log.Printf("extra %d", ff)
+		res[i].Off = d.Format.Dur(max) - clap.Clap //  + d.Dur(ff)
 	}
 	return res, nil
 }

@@ -1,28 +1,27 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/mb0/qnpdub/clap"
 )
 
-var addr = flag.String("addr", "localhost:8403", "httpd server address")
-var rate = flag.Int("rate", 30, "frame rate to sync to")
-
 func main() {
+	log.SetFlags(0)
 	flag.Parse()
 	var err error
-	args := flag.Args()
+	args := flag.Args()[1:]
 	switch cmd := flag.Arg(0); cmd {
-	case "web":
-		err = web(*addr)
+	case "cat":
+		err = doCat(args)
+	case "clap":
+		err = doClap(args)
 	case "sync":
-		err = sync(*rate, args[1:])
+		err = doSync(args)
+	case "web":
+		err = doWeb(args)
 	case "help":
 		help(os.Stdout)
 	default:
@@ -40,28 +39,60 @@ func help(f *os.File) {
 
 qnpdub provides tools for creating dub video and collages.
 
-Commands
+Media flags
 
-   sync		Syncs media files by end-clap and prints the offsets as json.
-   		Flag <-rate=30> sets the frame-rate to sync to.
+   -vod=0
+   -aod=0
+       Offset first video and audio by duration. You can use HH:MM:SS.mm or S+.mm format.
 
-   web		Starts a local webserver with some information.
-   		Flag <-addr=localhost:8403> configures the server address.
+   -dur=0
+       Limits the output duration. You can use HH:MM:SS.mm or S+.mm format.
 
-   help		Displays this help message.
+   -fps=0
+       Sets the output frame rate, use 30 or 30/1, and 30000/1001 instead of 29.97
+
+   -dim=0
+       Sets the output dimensions, use 720:-2 to scale width to 720px preserving input ratio.
+
+   -yes=false
+       Override existing output files.
+
+
+Media commands
+
+   cat <out> <paths>
+        Concatenates and combines media files to output by end-clap and prints the offsets as json.
+        Uses fps, scale, voff, aoff, dur flags.
+
+   clap <paths>
+        Detects a matching end-clap in media files and prints the result as json.
+        Uses fps flag.
+
+   sync <out> <paths>
+   	Detects a matching end-clap in the last video and audio and concatenates to output.
+	The output uses starts with the first audio stream up to the detected clap.
+        Uses fps, scale flags.
+
+
+
+Other commands
+
+   web
+       Starts a local webserver with some information.
+       -addr=localhost:8403
+           Configures the server address.
+
+   help
+       Displays this help message.
 `)
 }
 
-func sync(rate int, paths []string) error {
-	d := clap.Default()
-	offs, err := d.SyncPaths(30, paths...)
-	if err != nil {
-		return err
-	}
-	return json.NewEncoder(os.Stdout).Encode(offs)
-}
+func doWeb(args []string) error {
+	var addr string
+	flags := flag.NewFlagSet("web", flag.ContinueOnError)
+	flags.StringVar(&addr, "addr", "localhost:8403", "httpd server address")
+	flags.Parse(args)
 
-func web(addr string) error {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./web/static"))))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "web/index.html")

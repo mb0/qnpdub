@@ -1,4 +1,4 @@
-package wavf
+package ffm
 
 import (
 	"crypto/sha256"
@@ -8,10 +8,13 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/mb0/qnpdub/av"
+	"github.com/mb0/qnpdub/av/pcm"
 )
 
 func TestGenCmd(t *testing.T) {
-	f := Format{PCM: PCM_S8, Rate: 8000}
+	f := pcm.Format{PCM: pcm.S8, Rate: av.Hz(8000)}
 	tests := []struct {
 		path string
 	}{
@@ -31,9 +34,9 @@ func TestGenCmd(t *testing.T) {
 				dest = filepath.Join(os.TempDir(), name)
 			}
 			os.Remove(dest)
-			err = GenCmd(test.path, dest, f).Run()
+			out, err := GenPCMCmd(test.path, dest, f).CombinedOutput()
 			if err != nil {
-				t.Errorf("error gen %s %v", dest, err)
+				t.Errorf("error gen %s %v\n%s", dest, err, out)
 				continue
 			}
 		}
@@ -68,5 +71,4 @@ func hash(path string) ([]byte, error) {
 	h := sha256.New()
 	_, err = io.Copy(h, f)
 	return h.Sum(nil), err
-
 }

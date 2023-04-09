@@ -1,13 +1,11 @@
 package clap
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 	"testing"
-	"time"
 
-	"github.com/mb0/qnpdub/wavf"
+	"github.com/mb0/qnpdub/av"
 )
 
 var clapTests = []struct {
@@ -18,21 +16,22 @@ var clapTests = []struct {
 	next2 string
 }{
 	{"../testdata/example.flac",
-		"1m20.38s", "1m18s+13", "10m46s+12",
-		"1m11s+7 1m10s+18",
+		"1:20.382250", "1:18+13", "10:46+12",
+		"1:11+7 1:10+18",
 	},
 	{"../testdata/example.mp4",
-		"26.34s", "23s+8", "11m41s+17",
-		"16s+11 16s+2",
+		"26.346750", "23+8", "11:41+17",
+		"16+11 16+2",
 	},
 	{"../testdata/full",
-		"12m13.38s", "12m4s+24", "0s+1",
-		"11m58s+1 11m57s+27",
+		"12:13.383875", "12:04+24", "0+1",
+		"11:58+1 11:57+27",
 	},
 }
 
 func TestDetectorDetect(t *testing.T) {
 	d := Default()
+	r := av.Hz(30)
 	for _, test := range clapTests {
 		w, err := d.Load(test.path)
 		if err != nil {
@@ -44,31 +43,36 @@ func TestDetectorDetect(t *testing.T) {
 			t.Errorf("detect %s: %v", test.path, err)
 			continue
 		}
-		if got := centStr(w.Duration(w.Count)); got != test.dur {
+		if got := w.Dur(w.Count).String(); got != test.dur {
 			t.Errorf("detect %s dur got %s want %s", test.path, got, test.dur)
 		}
-		if got := frameStr(d.Duration(res[0]), 30); got != test.clap {
+		if got := r.FrameStr(d.Format.Dur(res[0])); got != test.clap {
 			t.Errorf("detect %s clap %s want %s", test.path, got, test.clap)
 		}
-		if got := frameStrs(d.Format, res[1:], 30); got != test.next2 {
+		if got := frameStrs(d.Format.Rate, r, res[1:]); got != test.next2 {
 			t.Errorf("detect %s next2 got %s want %s", test.path, got, test.next2)
 		}
 	}
 }
-func TestDetectorSync(t *testing.T) {
+func TestDetectorMatch(t *testing.T) {
+	fr := av.Hz(30)
 	var paths, want []string
 	for _, test := range clapTests {
 		paths = append(paths, test.path)
 		want = append(want, test.off)
 	}
 	d := Default()
-	offs, err := d.SyncPaths(30, paths...)
+	ws, err := d.LoadAll(paths...)
+	if err != nil {
+		t.Errorf("load: %v", err)
+	}
+	claps, err := d.Match(fr, ws...)
 	if err != nil {
 		t.Errorf("sync: %v", err)
 	}
 	var got []string
-	for _, off := range offs {
-		got = append(got, frameStr(off, 30))
+	for _, clap := range claps {
+		got = append(got, fr.FrameStr(clap.Off.Sync(fr)))
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("sync got %v want %v", got, want)
@@ -157,22 +161,14 @@ func TestDistWeb(t *testing.T) {
 	}
 }
 
-func centStr(d time.Duration) string {
-	f := time.Millisecond * 10
-	return ((d / f) * f).String()
-}
-func frameStr(d time.Duration, rate int) string {
-	r := d % time.Second
-	n := int(r) * rate / int(time.Second)
-	return fmt.Sprintf("%s+%d", d-r, n+1)
-}
-func frameStrs(f wavf.Format, offs []int, rate int) string {
+func frameStrs(srcr, dstr av.Rate, offs []int) string {
 	var b strings.Builder
 	for i, off := range offs {
 		if i > 0 {
 			b.WriteByte(' ')
 		}
-		b.WriteString(frameStr(f.Duration(off), rate))
+		b.WriteString(dstr.FrameStr(srcr.Dur(off)))
+
 	}
 	return b.String()
 }

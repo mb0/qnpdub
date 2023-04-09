@@ -1,36 +1,29 @@
-package wavf
+package pcm
 
 import (
 	"encoding/binary"
 	"fmt"
 	"strings"
-	"time"
+
+	"github.com/mb0/qnpdub/av"
 )
 
 var (
-	PCM_S8    = PCM{true, 1, nil}
-	PCM_U8    = PCM{false, 1, nil}
-	PCM_S16LE = PCM{true, 2, binary.LittleEndian}
-	PCM_S16BE = PCM{true, 2, binary.BigEndian}
-	PCM_U16LE = PCM{false, 2, binary.LittleEndian}
-	PCM_U16BE = PCM{false, 2, binary.BigEndian}
+	S8    = PCM{true, 1, nil}
+	U8    = PCM{false, 1, nil}
+	S16LE = PCM{true, 2, binary.LittleEndian}
+	S16BE = PCM{true, 2, binary.BigEndian}
+	U16LE = PCM{false, 2, binary.LittleEndian}
+	U16BE = PCM{false, 2, binary.BigEndian}
 )
 
 type Format struct {
 	PCM
-	Rate int
+	av.Rate
 }
 
-func (f Format) Duration(count int) time.Duration {
-	// number_of_samples divided by sample_rate per second, normalized to nano seconds
-	return time.Duration(count) * time.Second / time.Duration(f.Rate)
-}
-
-func (f Format) Samples(dur time.Duration) int {
-	return int((dur + 1) * time.Duration(f.Rate) / time.Second)
-}
 func (f Format) String() string {
-	return fmt.Sprintf("%s_%d", f.PCM, f.Rate)
+	return fmt.Sprintf("%s_%d", f.PCM, f.Rate.Num)
 }
 
 type PCM struct {
@@ -39,7 +32,7 @@ type PCM struct {
 	binary.ByteOrder
 }
 
-func (pcm PCM) add8(b []byte, res []int16) []int16 {
+func (pcm PCM) Add8(b []byte, res []int16) []int16 {
 	for o := 0; o < len(b); o++ {
 		s := b[o]
 		var n int16
@@ -53,7 +46,7 @@ func (pcm PCM) add8(b []byte, res []int16) []int16 {
 	return res
 }
 
-func (pcm PCM) add16(b []byte, res []int16) []int16 {
+func (pcm PCM) Add16(b []byte, res []int16) []int16 {
 	by := int(pcm.Bytes >> 3)
 	for o := 0; o < len(b); o += by {
 		s := pcm.Uint16(b[o:])
