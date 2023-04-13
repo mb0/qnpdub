@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/mb0/qnpdub/av"
 )
@@ -17,9 +18,12 @@ func ProbeAll(paths ...string) ([]*Info, error) { return Def().ProbeAll(paths...
 
 // Probe runs ffprobe and returns the parsed output or an error.
 func (o *Opts) Probe(path string) (*Info, error) {
+	cmd := o.Cmd("ffprobe", o.Global, DefProbe, Args(path))
+	var errb strings.Builder
+	cmd.Stderr = &errb
 	out, err := o.Cmd("ffprobe", o.Global, DefProbe, Args(path)).Output()
 	if err != nil {
-		return nil, fmt.Errorf("ffprobe %q: %w", path, err)
+		return nil, fmt.Errorf("ffprobe %q: %w\n%s-%s", path, err, out, errb.String())
 	}
 	res := Info{Path: path}
 	err = json.Unmarshal(out, &res)

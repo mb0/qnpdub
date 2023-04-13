@@ -62,12 +62,14 @@ func ParseDur(str string) (res Dur, err error) {
 	return res, nil
 }
 
-
 // Val returns a time duration for d.
 func (d Dur) Val() time.Duration { return time.Duration(d) }
 
 // String returns d in the default format.
 func (d Dur) String() string { return formatDur(d, true) }
+
+// String returns d in the seconds format.
+func (d Dur) Secs() string { return formatDur(d, false) }
 
 // MarshalText returns d in seconds format as bytes.
 func (d Dur) MarshalText() ([]byte, error) { return []byte(formatDur(d, false)), nil }
@@ -79,7 +81,7 @@ func (d *Dur) UnmarshalText(b []byte) (err error) {
 }
 
 func (d Dur) Sync(r Rate) Dur {
-	return r.Dur(r.Beats(d+S/Dur(3*r.Num))) 
+	return r.Dur(r.Beats(d + S/Dur(3*r.Num)))
 }
 
 // FormatDur formats a time duration in an accepted ffmpeg format.

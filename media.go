@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -13,8 +12,9 @@ import (
 )
 
 func doCat(args []string) error {
+	o, args := opts(args)
 	out := args[0]
-	o, vs, as := probe(args[1:])
+	vs, as := probe(o, args[1:])
 	if len(as) == 0 {
 		as = vs
 	}
@@ -36,8 +36,9 @@ func doClap(args []string) error {
 }
 
 func doSync(args []string) error {
+	o, args := opts(args)
 	out := args[0]
-	o, vs, as := probe(args[1:])
+	vs, as := probe(o, args[1:])
 	if len(as) < 1 || len(vs) < 1 {
 		return fmt.Errorf("sync needs at least one video and one audio file")
 	}
@@ -83,11 +84,10 @@ func opts(args []string) (*ffm.Opts, []string) {
 	if err != nil {
 		log.Fatalf("invalid flag: %v", err)
 	}
-	return o, flag.Args()
+	return o, flags.Args()
 }
 
-func probe(args []string) (_ *ffm.Opts, vs, as []*ffm.Info) {
-	o, paths := opts(args)
+func probe(o *ffm.Opts, paths []string) (vs, as []*ffm.Info) {
 	nfos, err := o.ProbeAll(paths...)
 	if err != nil {
 		log.Fatalf("probe failed: %v", err)
@@ -99,5 +99,5 @@ func probe(args []string) (_ *ffm.Opts, vs, as []*ffm.Info) {
 			as = append(as, nfo)
 		}
 	}
-	return o, vs, as
+	return vs, as
 }

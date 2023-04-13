@@ -11,10 +11,10 @@ import (
 )
 
 var (
-	DefLog    = []string{"-v", "fatal"}
+	DefLog    = []string{"-v", "error"}
 	DefVCodec = []string{"-c:v", "h264", "-g", "18", "-bf", "2"}
 	DefACodec = []string{"-c:a", "aac"}
-	DefProbe  = []string{"-print_format", "json", "-show-format", "-show_streams"}
+	DefProbe  = []string{"-print_format", "json", "-show_format", "-show_streams"}
 )
 
 // Def returns the common default options for operations.
@@ -36,6 +36,7 @@ type Opts struct {
 	Vod    av.Dur
 	Aod    av.Dur
 	Dur    av.Dur
+	Rot    int
 	Yes    bool
 }
 
@@ -46,6 +47,7 @@ func (o *Opts) Flags() *flag.FlagSet {
 	fs.TextVar(&o.Dur, "dur", o.Dur, "limit output duration")
 	fs.TextVar(&o.Fps, "fps", o.Fps, "video frame rate")
 	fs.TextVar(&o.Dim, "dim", o.Dim, "scale to output dimension")
+	fs.IntVar(&o.Rot, "rot", o.Rot, "rotate by degrees")
 	fs.BoolVar(&o.Yes, "yes", o.Yes, "override existing files")
 	return fs
 }

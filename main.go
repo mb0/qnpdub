@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +11,7 @@ import (
 
 func main() {
 	log.SetFlags(0)
+	flag.Usage = func() { help(flag.CommandLine.Output()) }
 	flag.Parse()
 	var err error
 	args := flag.Args()[1:]
@@ -34,8 +36,8 @@ func main() {
 	}
 }
 
-func help(f *os.File) {
-	fmt.Fprintf(f, `Usage: qnpdub [<flags>] <command> [<args>]
+func help(w io.Writer) {
+	fmt.Fprintf(w, `Usage: qnpdub [<flags>] <command> [<args>]
 
 qnpdub provides tools for creating dub video and collages.
 
