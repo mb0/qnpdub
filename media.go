@@ -62,7 +62,8 @@ func doSync(args []string) error {
 	// as we usually start recording audio synced to a song
 	// TODO calulate offsets respecting opts offs
 	if diff := vc - ac; diff >= 0 {
-		o.Vod = diff
+		fr := vs[0].Video().Rate("r_frame_rate")
+		o.Vod = diff.Sync(fr)
 	} else {
 		o.Aod = -diff
 	}
